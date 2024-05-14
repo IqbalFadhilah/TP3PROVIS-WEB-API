@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:tp_provider/pages/bloc_pages.dart';
 import 'pages/product_pages.dart';
+import 'product_bloc.dart';
 import 'product_provider.dart';
-
 
 void main() {
   runApp(MyApp());
@@ -49,7 +51,15 @@ class HomeScreen extends StatelessWidget {
             ElevatedButton(
               child: Text('Bloc'),
               onPressed: () {
-                
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BlocProvider(
+                      create: (context) => ProductBloc()..fetchProducts(),
+                      child: ProductPage(),
+                    ),
+                  ),
+                );
               },
             ),
           ],
