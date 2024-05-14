@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'pages/product_pages.dart';
 import 'product_provider.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -16,34 +18,42 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: ProductListScreen(),
+        debugShowCheckedModeBanner: false,
+        home: HomeScreen(),
       ),
     );
   }
 }
 
-class ProductListScreen extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Products'),
+        title: Text('Home'),
       ),
-      body: FutureBuilder(
-        future: Provider.of<ProductProvider>(context, listen: false).fetchProducts(),
-        builder: (ctx, snapshot) =>
-            snapshot.connectionState == ConnectionState.waiting
-                ? Center(child: CircularProgressIndicator())
-                : Consumer<ProductProvider>(
-                    builder: (ctx, productProvider, _) => ListView.builder(
-                      itemCount: productProvider.products.length,
-                      itemBuilder: (ctx, i) => ListTile(
-                        leading: Image.network(productProvider.products[i].image),
-                        title: Text(productProvider.products[i].title),
-                        subtitle: Text(productProvider.products[i].description),
-                      ),
-                    ),
-                  ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(
+              child: Text('Provider'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProductPages()),
+                );
+              },
+            ),
+            SizedBox(height: 12),
+            ElevatedButton(
+              child: Text('Bloc'),
+              onPressed: () {
+                
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
